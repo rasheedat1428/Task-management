@@ -1,12 +1,20 @@
-import { TaskProvider } from "./components/tasks";
+import AddTask from "./components/AddTask";
+import Header from "./components/Header";
+import { TaskProvider } from "./context/tasks";
+import Tasks from "./components/Tasks";
+
+
 
 function App() {
   return (
-    <TaskProvider>
-    <div className="App">
-      <h1>Task Tracker</h1>
+
+   <TaskProvider>
+    <div className="container">
+     <Header />
+      <AddTask />
+      <Tasks />
     </div>
-  </TaskProvider>
+  </TaskProvider> 
   );
 }
 
