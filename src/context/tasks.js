@@ -5,6 +5,7 @@ const TaskContext = createContext();
 
 const initialState = {
     tasks: [],
+    showForm: false,
 };
 export const TaskProvider = (props) => {
     const [state, dispatch] = useReducer(reducer, initialState);

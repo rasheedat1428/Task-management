@@ -3,16 +3,15 @@ import Header from "./components/Header";
 import { TaskProvider } from "./context/tasks";
 import Tasks from "./components/Tasks";
 
-
-
 function App() {
   return (
-
+   
    <TaskProvider>
     <div className="container">
-     <Header />
-      <AddTask />
+    <Header />
+     <AddTask />
       <Tasks />
+   
     </div>
   </TaskProvider> 
   );

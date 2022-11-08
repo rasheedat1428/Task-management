@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import TaskContext from '../context/tasks';
 import { ADD } from '../context/types';
+import { generateId } from '../utility/taskUtility';
+
 
 const AddTask = () => {
   const defaultValue = {
@@ -11,7 +13,7 @@ const AddTask = () => {
 
   const [isError, setIsError] = React.useState({text: false, day: false});
   const [formValues, setFormValues] = React.useState(defaultValue);
-  const {dispatch} = React.useContext(TaskContext);
+  const {state, dispatch} = React.useContext(TaskContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,10 +23,15 @@ const AddTask = () => {
     if(!formValues.text || !formValues.day) {
       return;
     }
-
-    dispatch({type: ADD, payload: formValues});
-  }
+     const payload = {...formValues, id: generateId(state.tasks)
+     };
+     
+    dispatch({type: ADD, payload});
+    setFormValues(defaultValue);
+  };
     return (
+      <Fragment>
+        {state.showForm && (
         <form className="add-form" onSubmit={handleSubmit}>
           <div className="form-control">
             <label>Task</label>
@@ -60,6 +67,8 @@ const AddTask = () => {
             value="Save Task" 
             className="btn btn-block" />
         </form>
+        )}
+        </Fragment>
       );
     };
 

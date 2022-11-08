@@ -1,26 +1,25 @@
 import React from 'react'
-import PropTypes from "prop-types";
+import TaskContext from '../context/tasks';
+import { CHANGE_SHOW_FORM } from '../context/types';
 
-const Button = ({color, label, onClick}) => {
+
+const Button = () => {
+  const {state, dispatch} = React.useContext(TaskContext);
+  const label = state.showForm ? "Hide Form" : "Show Form"
+  const color = state.showForm ? "purple" : "green";
+
+const handleClick = () => {
+  dispatch({type: CHANGE_SHOW_FORM});
+};
+
   return (
-    <Button 
+    <button 
+        onClick = {handleClick} 
         className="btn"
         style={{ backgroundColor: color }}
-        onClick = {onClick} >
+     >
             {label}
-    </Button>
+    </button>
   );
 };
-
-Button.defaultProps = {
-    color: "lightgreen",
-    label: "Add",
-};
-
-Button.propTypes = {
-    label: PropTypes.string,
-    color: PropTypes.string,
-    onClick: PropTypes.func,
-  };
-  
 export default Button
