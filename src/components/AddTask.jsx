@@ -42,7 +42,8 @@ const AddTask = () => {
             value={formValues.text}
             onChange={(e) => setFormValues({...formValues, text: e.target.value})}
            />
-            {isError.text && (<span style={{color: "red"}}>Please add a task</span>)}
+            {isError.text && (<span style={{color: "red"}}>Please add a task</span>
+            )}
             </div>
           <div className="form-control">
             <label>Day &amp; Time</label>

@@ -7,10 +7,12 @@ const Tasks = () => {
   const tasks = state.tasks;
   return (
     <div>
+      {tasks.length <=0 && <p>No Task Available</p>}
       {tasks.map((task, i) => (
-      <Task key={i} task={task} />))}
+      <Task key={i} task={task} />
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default Tasks
+export default Tasks;
