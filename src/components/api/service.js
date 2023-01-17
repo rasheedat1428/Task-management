@@ -1,21 +1,13 @@
+import axios from "axios";
+
 const SERVER_URL = 'http://localhost:6500';
 
 export const loginService = (userDetails) => {
-return fetch(`${SERVER_URL}/users/login`, {
-    method: "POST",
+return axios.post(`${SERVER_URL}/users/login`, userDetails, {
+   
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "Access-Control": "Allow-Origin"
     },
-    body: JSON.stringify(userDetails)
 });
 }
-/*export const registerService = () => {
-    return fetch(`${SERVER_URL}/users/register`, {
-    method: "GET",
-    headers: {
-
-    }    
-    });
-}; */

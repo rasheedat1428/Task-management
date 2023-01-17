@@ -5,6 +5,7 @@ const TaskContext = createContext();
 
 const initialState = {
     tasks: [],
+    user: undefined,
     showForm: false,
 };
 export const TaskProvider = (props) => {

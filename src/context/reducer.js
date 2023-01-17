@@ -1,4 +1,4 @@
-import { ADD, CHANGE_SHOW_FORM, DELETE, UPDATE } from "./types"
+import { ADD, CHANGE_SHOW_FORM, DELETE, UPDATE, UPDATE_USER } from "./types"
 
 export const reducer = (state, action) => {
 switch (action.type){
@@ -17,6 +17,11 @@ switch (action.type){
         };
         case CHANGE_SHOW_FORM: 
             return {...state, showForm: !state.showForm,};
+
+        case UPDATE_USER: 
+            return {...state,
+                user: action.payload
+        };
         
         default:
         return state;

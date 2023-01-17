@@ -1,8 +1,11 @@
 import React from "react";
 import { loginService } from "../api/service";
 import { Link, useNavigate } from "react-router-dom";
+import { UPDATE_USER } from "../../context/types";
+import TaskContext from "../../context/tasks";
 
 const Login = () => {
+  const {dispatch} = React.useContext(TaskContext);
     const defaultValues = {
       username: "",
       password: "",
@@ -35,20 +38,12 @@ const Login = () => {
     loginService(formValues)
       .then((res) => {
         console.log(res);
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error(res.statusText);
-        }
-      })
-      .then((res) => {
-        console.log(res);
-        navigate("/home", { replace: true });
-
+        dispatch({type: UPDATE_USER, payload: res.data})
         setIsLoading(false);
+        navigate("/home", { replace: true });
       })
       .catch((err) => {
-        setErrorMessage(err.message);
+        setErrorMessage(err.response?.data?.message || err.message);
         setIsLoading(false);
       });
   };

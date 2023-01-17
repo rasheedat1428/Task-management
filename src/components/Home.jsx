@@ -1,14 +1,34 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import TaskContext from "../context/tasks";
 import AddTask from "./AddTask";
 import Header from "./Header";
 import Tasks from "./Tasks";
 
 const Home = () => {
+  const {state} = React.useContext(TaskContext);
+  console.log(state);
+  const user = state.user;
+  const navigate = useNavigate
+
+  React.useEffect(() => {
+    if (!user || !user.name) {
+      navigate("/login", {replace: true});
+  }}, [navigate, user]);
+
+  const name = state.user?.name || "Guest!"
+
   return (
     <div>
-      <Header />
+      {user ? (
+      <>
+      <Header title={name}/>
       <AddTask />
       <Tasks />
+      </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
