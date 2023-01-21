@@ -4,29 +4,59 @@ import TaskContext from "../context/tasks";
 import AddTask from "./AddTask";
 import Header from "./Header";
 import Tasks from "./Tasks";
+import {fetchUserProfile, fetchUserTasks} from "./api/service";
+import {UPDATE_USER, ADD_ALL} from "../context/types";
 
 const Home = () => {
-  const {state} = useContext(TaskContext);
-  console.log(state);
+  const {state, dispatch} = useContext(TaskContext);
+  
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
+
   const user = state.user;
-  const navigate = useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || !user.name) {
+    if (!localStorage.getItem("token")) {
       navigate("/login", {replace: true});
-  }}, [navigate, user]);
+  } else {
+    setIsLoading(true);
 
-  const name = state.user?.name || "Guest!";
+    fetchUserProfile() 
+    .then((res) => {
+      dispatch({type:UPDATE_USER, payload: res.data})
+      fetchUserTasks()
+      .then((res) => {
+        dispatch({type: ADD_ALL, payload: res.data})
+        setError(false)
+        setIsLoading(false)
+    })
+      .catch((err) => {
+        setError(true)
+        setIsLoading(false)
+    })
+    })
+    .catch((err) => {
+      navigate("/login", {replace: true});
+    })
+  }
+}, [navigate, dispatch]);
 
   return (
     <>
       {user ? (
       <>
-      <Header title={name}/>
+      <Header title={user?.name || "Guest!"}/>
+      {!isLoading && (
+        <>
       <AddTask />
+      {error && <p>Unable to Fetch Tasks</p>}
       <Tasks />
       </>
-      ) : (
+      )}
+      {isLoading && <p>Fetching Tasks...</p>}
+      </>
+     ) : (
         <></>
       )}
     </>
