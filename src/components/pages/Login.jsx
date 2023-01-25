@@ -35,10 +35,12 @@ const Login = () => {
     }
 
     setIsLoading(true);
+
     loginService(formValues)
       .then((res) => {
         console.log(res);
-        dispatch({type: UPDATE_USER, payload: res.data})
+        dispatch({type: UPDATE_USER, payload: res.data});
+        localStorage.setItem("token", res.data.token);
         setIsLoading(false);
         navigate("/home", { replace: true });
       })
