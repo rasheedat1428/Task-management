@@ -38,9 +38,7 @@ const Login = () => {
 
     loginService(formValues)
       .then((res) => {
-        console.log(res);
-        dispatch({type: UPDATE_USER, payload: res.data});
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("auth", JSON.stringify(res.data));
         setIsLoading(false);
         navigate("/home", { replace: true });
       })

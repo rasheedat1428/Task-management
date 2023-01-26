@@ -17,14 +17,19 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
+    if (!localStorage.getItem("auth")) {
       navigate("/login", {replace: true});
   } else {
     setIsLoading(true);
 
     fetchUserProfile() 
     .then((res) => {
-      dispatch({type:UPDATE_USER, payload: res.data})
+      dispatch({type:UPDATE_USER, payload: res.data});
+    })
+    .catch((err) => {
+      navigate("/login", {replace: true});
+    })
+
       fetchUserTasks()
       .then((res) => {
         dispatch({type: ADD_ALL, payload: res.data})
@@ -35,12 +40,9 @@ const Home = () => {
         setError(true)
         setIsLoading(false)
     })
-    })
-    .catch((err) => {
-      navigate("/login", {replace: true});
-    })
+    
   }
-}, [navigate, dispatch]);
+}, []);
 
   return (
     <>
